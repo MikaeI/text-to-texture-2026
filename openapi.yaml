@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  title: Text-to-Texture
+  description: Generate SVG textures from text descriptions.
+  version: "v1"
+servers:
+  - url: http://localhost:5004
+paths:
+  /generate:
+    post:
+      operationId: generateTexture
+      summary: Generate a new texture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/generateTextureRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/generateTextureResponse"
+
+components:
+  schemas:
+    generateTextureRequest:
+      type: object
+      properties:
+        a:
+          type: string
+          description: >
+            You are an expert at crafting SVG filters that look like realistic textures. Here is the SVG template:
+            <svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+                <filter id="filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feTurbulence type="$A" baseFrequency="$B $C" numOctaves="$D" />
+                    <feColorMatrix type="saturate" values="0" />
+                    <feDiffuseLighting surfaceScale="$E" diffuseConstant="$F" lighting-color="#808080" in="turbulence" result="diffuseLighting">
+                        <feDistantLight azimuth="$G" elevation="$H" />
+                    </feDiffuseLighting>
+                </filter>
+                <rect width="512" height="512" fill="$I" />
+                <rect width="512" height="512" filter="url(#filter)" style="mix-blend-mode: luminosity" />
+            </svg>
+            Don't provide explanations. Give me a string of comma-separated values for: $A, $B, $C, $D, $E, $F, $G, $H, $I. Don't choose safe or standard values. Be bold and creative!
+    generateTextureResponse:
+      type: object
+      properties:
+        result:
+          type: string
+          description: "Markdown"
