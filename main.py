@@ -18,7 +18,7 @@ async def generate():
         response=json.dumps({
             "result":
                 (
-                    '![](http://localhost:5004/t.svg' +
+                    '![](https://text-to-texture-2026.onrender.com/t.svg' +
                         '?a=' + urllib.parse.quote(a.split(",")[0]) +
                         '&b=' + urllib.parse.quote(a.split(",")[1]) +
                         '&c=' + urllib.parse.quote(a.split(",")[2]) +
